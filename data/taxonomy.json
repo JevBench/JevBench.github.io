@@ -1,0 +1,372 @@
+{
+ "dimensions": [
+  {
+   "id": "REP",
+   "title": "Representation consistency"
+  },
+  {
+   "id": "BAT",
+   "title": "Batch independence"
+  },
+  {
+   "id": "MEA",
+   "title": "Probability measure coherence"
+  },
+  {
+   "id": "LOG",
+   "title": "Logical coherence"
+  },
+  {
+   "id": "CHO",
+   "title": "Choice-set coherence"
+  }
+ ],
+ "groups": [
+  {
+   "id": "REP.invariance",
+   "title": "Invariance"
+  },
+  {
+   "id": "REP.equivariance",
+   "title": "Equivariance"
+  },
+  {
+   "id": "REP.binding",
+   "title": "Binding"
+  },
+  {
+   "id": "REP.type",
+   "title": "Answer type"
+  },
+  {
+   "id": "BAT.isolation",
+   "title": "Isolation"
+  },
+  {
+   "id": "MEA.complement",
+   "title": "Complement"
+  },
+  {
+   "id": "MEA.partition",
+   "title": "Partition"
+  },
+  {
+   "id": "MEA.marginalisation",
+   "title": "Marginalisation"
+  },
+  {
+   "id": "LOG.bounds",
+   "title": "Bounds"
+  },
+  {
+   "id": "LOG.monotonicity",
+   "title": "Monotonicity"
+  },
+  {
+   "id": "CHO.conditioning",
+   "title": "Conditioning"
+  }
+ ],
+ "relations": [
+  {
+   "name": "instruction_paraphrase",
+   "group": "REP.invariance",
+   "summary": "judged paraphrase of the instructions",
+   "form": "E"
+  },
+  {
+   "name": "cross_lingual",
+   "group": "REP.invariance",
+   "summary": "question translated, state untouched",
+   "form": "E"
+  },
+  {
+   "name": "typo_noise",
+   "group": "REP.invariance",
+   "summary": "typos, casing, punctuation",
+   "form": "E"
+  },
+  {
+   "name": "verbosity",
+   "group": "REP.invariance",
+   "summary": "redundant clarification added",
+   "form": "E"
+  },
+  {
+   "name": "key_rename",
+   "group": "REP.invariance",
+   "summary": "neutral question key",
+   "form": "E"
+  },
+  {
+   "name": "description_paraphrase",
+   "group": "REP.invariance",
+   "summary": "judged paraphrase of one option",
+   "form": "E"
+  },
+  {
+   "name": "de_morgan",
+   "group": "REP.invariance",
+   "summary": "not (A and B) equals not A or not B",
+   "form": "E"
+  },
+  {
+   "name": "option_permutation",
+   "group": "REP.equivariance",
+   "summary": "options reordered, Score levels reversed",
+   "form": "E"
+  },
+  {
+   "name": "option_rename",
+   "group": "REP.equivariance",
+   "summary": "neutral option ids, same descriptions",
+   "form": "E"
+  },
+  {
+   "name": "clone_symmetry",
+   "group": "REP.equivariance",
+   "summary": "two identical options get equal probability",
+   "form": "E"
+  },
+  {
+   "name": "key_instruction_conflict",
+   "group": "REP.binding",
+   "summary": "negated or swapped question keys",
+   "form": "E"
+  },
+  {
+   "name": "name_description_conflict",
+   "group": "REP.binding",
+   "summary": "option ids exchanged, descriptions fixed",
+   "form": "E"
+  },
+  {
+   "name": "description_swap",
+   "group": "REP.binding",
+   "summary": "descriptions exchanged, ids fixed",
+   "form": "E"
+  },
+  {
+   "name": "noul_as_choice",
+   "group": "REP.type",
+   "summary": "Noul versus yes/no Choice",
+   "form": "E"
+  },
+  {
+   "name": "noul_as_score",
+   "group": "REP.type",
+   "summary": "Noul versus two-level Score",
+   "form": "E"
+  },
+  {
+   "name": "batch_solo",
+   "group": "BAT.isolation",
+   "summary": "asked alone versus in its batch",
+   "form": "E"
+  },
+  {
+   "name": "batch_order",
+   "group": "BAT.isolation",
+   "summary": "question order reversed",
+   "form": "E"
+  },
+  {
+   "name": "duplicate_question",
+   "group": "BAT.isolation",
+   "summary": "same question twice in one request",
+   "form": "E"
+  },
+  {
+   "name": "batch_content",
+   "group": "BAT.isolation",
+   "summary": "other questions replaced, size fixed",
+   "form": "E"
+  },
+  {
+   "name": "batch_size_sweep",
+   "group": "BAT.isolation",
+   "summary": "batches of 2, 5 and 10 questions",
+   "form": "E"
+  },
+  {
+   "name": "negation_wrapper",
+   "group": "MEA.complement",
+   "summary": "P(Q) + P(not Q) = 1, templates",
+   "form": "I"
+  },
+  {
+   "name": "natural_negation",
+   "group": "MEA.complement",
+   "summary": "P(Q) + P(Q') = 1, natural opposite",
+   "form": "I"
+  },
+  {
+   "name": "choice_complement",
+   "group": "MEA.complement",
+   "summary": "Noul 'not o' = 1 - P(o)",
+   "form": "I"
+  },
+  {
+   "name": "score_complement",
+   "group": "MEA.complement",
+   "summary": "Noul 'not level k' = 1 - P(k)",
+   "form": "I"
+  },
+  {
+   "name": "compound_negation",
+   "group": "MEA.complement",
+   "summary": "P(not (A and B)) + P(A and B) = 1",
+   "form": "I"
+  },
+  {
+   "name": "option_merge",
+   "group": "MEA.partition",
+   "summary": "'a or b' gets P(a) + P(b)",
+   "form": "E"
+  },
+  {
+   "name": "option_split",
+   "group": "MEA.partition",
+   "summary": "'o and X' + 'o and not X' = P(o)",
+   "form": "E"
+  },
+  {
+   "name": "option_clone",
+   "group": "MEA.partition",
+   "summary": "a clone and its original keep P(o)",
+   "form": "E"
+  },
+  {
+   "name": "similarity_effect",
+   "group": "MEA.partition",
+   "summary": "a near-duplicate and its original keep P(b)",
+   "form": "E"
+  },
+  {
+   "name": "partition_hierarchy",
+   "group": "MEA.partition",
+   "summary": "coarse blocks = sums of their options",
+   "form": "E"
+  },
+  {
+   "name": "score_granularity",
+   "group": "MEA.partition",
+   "summary": "adjacent levels merged keep their sum",
+   "form": "E"
+  },
+  {
+   "name": "extreme_level",
+   "group": "MEA.partition",
+   "summary": "a level beyond the top refines the top level",
+   "form": "E"
+  },
+  {
+   "name": "option_closure",
+   "group": "MEA.partition",
+   "summary": "each option in turn replaced by a catch-all",
+   "form": "E"
+  },
+  {
+   "name": "score_cumulative",
+   "group": "MEA.marginalisation",
+   "summary": "'level k or higher' = upper tail, every k",
+   "form": "I"
+  },
+  {
+   "name": "choice_indicator",
+   "group": "MEA.marginalisation",
+   "summary": "Noul 'is it o?' = P(o), every o",
+   "form": "I"
+  },
+  {
+   "name": "pair_choice_marginals",
+   "group": "MEA.marginalisation",
+   "summary": "four-way pair Choice has the Nouls as marginals",
+   "form": "I"
+  },
+  {
+   "name": "inclusion_exclusion",
+   "group": "MEA.marginalisation",
+   "summary": "P(A and B) + P(A or B) = P(A) + P(B)",
+   "form": "I"
+  },
+  {
+   "name": "frechet_and_upper",
+   "group": "LOG.bounds",
+   "summary": "P(A and B) <= min(P(A), P(B))",
+   "form": "L"
+  },
+  {
+   "name": "nary_and_upper",
+   "group": "LOG.bounds",
+   "summary": "P(all) <= min P(Ai)",
+   "form": "L"
+  },
+  {
+   "name": "nary_and_lower",
+   "group": "LOG.bounds",
+   "summary": "P(all) >= sum P(Ai) - (n - 1)",
+   "form": "L"
+  },
+  {
+   "name": "nary_or_upper",
+   "group": "LOG.bounds",
+   "summary": "P(any) <= min(1, sum P(Ai))",
+   "form": "L"
+  },
+  {
+   "name": "nary_or_lower",
+   "group": "LOG.bounds",
+   "summary": "P(any) >= max P(Ai)",
+   "form": "L"
+  },
+  {
+   "name": "count_upper",
+   "group": "LOG.bounds",
+   "summary": "P(at least two) <= sum P(Ai) / 2",
+   "form": "L"
+  },
+  {
+   "name": "count_lower",
+   "group": "LOG.bounds",
+   "summary": "P(at least two) >= (sum P(Ai) - 1) / (n - 1)",
+   "form": "L"
+  },
+  {
+   "name": "threshold_sweep",
+   "group": "LOG.monotonicity",
+   "summary": "'more than k' falls with k",
+   "form": "L"
+  },
+  {
+   "name": "entailment_strength",
+   "group": "LOG.monotonicity",
+   "summary": "Q1 entails Q2 => P(Q1) <= P(Q2)",
+   "form": "L"
+  },
+  {
+   "name": "quantifier_monotonicity",
+   "group": "LOG.monotonicity",
+   "summary": "all <= at least two <= at least one",
+   "form": "L"
+  },
+  {
+   "name": "irrelevant_option",
+   "group": "CHO.conditioning",
+   "summary": "off-topic option added",
+   "form": "E"
+  },
+  {
+   "name": "remove_option_iia",
+   "group": "CHO.conditioning",
+   "summary": "each option in turn removed",
+   "form": "E"
+  },
+  {
+   "name": "pairwise_iia",
+   "group": "CHO.conditioning",
+   "summary": "each pair of options asked alone",
+   "form": "E"
+  }
+ ]
+}

@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JevBench: coherence tests for typed decision models</title>
+<meta name="description" content="JevBench tests whether typed probabilistic decision models answer related questions coherently: 50 metamorphic relations, no gold labels, a frozen test set. Leaderboard of 21 openly released models.">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#"><img src="assets/logo.svg" alt="">JevBench</a>
+    <nav class="links">
+      <a href="#leaderboard">Leaderboard</a>
+      <a href="#profiles" class="opt">Profiles</a>
+      <a href="#findings" class="opt">Findings</a>
+      <a href="#models" class="opt">Models</a>
+      <a href="#start" class="opt">Get started</a>
+      <a href="report/JevBench-technical-report.pdf" class="opt">Report</a>
+      <a href="https://github.com/JevBench/jevbench">GitHub</a>
+    </nav>
+    <button class="theme" id="theme" title="Switch light or dark">◐</button>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Benchmark · Technical report · Python package</div>
+    <h1>Do a decision model's answers fit together?</h1>
+    <p class="lead">JevBench tests whether typed probabilistic decision models answer related questions
+      coherently: a question and its negation, two options and their merger, a menu and its sub-menu.
+      It measures consistency, not accuracy or speed, and needs no gold labels.</p>
+    <div class="actions">
+      <a class="btn primary" href="#leaderboard">See the leaderboard</a>
+      <a class="btn" href="https://github.com/JevBench/jevbench">GitHub</a>
+      <a class="btn" href="report/JevBench-technical-report.pdf">Technical report (PDF)</a>
+      <a class="btn" href="https://pypi.org/project/jevbench/">pip install jevbench</a>
+    </div>
+    <div class="stats" id="stats"></div>
+  </div>
+</div>
+
+<section id="measures">
+  <div class="wrap">
+    <h2><span class="num">01</span>What it measures</h2>
+    <p class="intro">Every test transforms only the question side of a request (never the input it is about)
+      in a way whose effect on the answer is fixed by probability or choice theory, and measures in probability
+      units how far the model's answers miss that law. A test passes within 0.05. The 50 laws fall into five
+      dimensions, by the operation that links the two answers compared.</p>
+    <div class="cards">
+      <div class="card"><div class="tag">REP</div><h3>Representation</h3><p>The same events described differently (a paraphrase, a translation, reordered or renamed options) get the same answer.</p></div>
+      <div class="card"><div class="tag">BAT</div><h3>Batch independence</h3><p>A question's answer does not depend on the other questions asked with it, their order or their number.</p></div>
+      <div class="card"><div class="tag">MEA</div><h3>Probability measure</h3><p>Answers add up: a question and its negation sum to one; merging options merges their probabilities.</p></div>
+      <div class="card"><div class="tag">LOG</div><h3>Logical order</h3><p>A conjunction is never more probable than its parts; a stricter threshold is never more probable.</p></div>
+      <div class="card"><div class="tag">CHO</div><h3>Choice-set conditioning</h3><p>Adding an irrelevant option or removing one leaves the other options' relative probabilities unchanged.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="leaderboard" class="alt">
+  <div class="wrap">
+    <h2><span class="num">02</span>Leaderboard</h2>
+    <p class="intro">JevBench-mini (1,200 tests on 240 cases in 12 domains). Overall: the mean of the five
+      dimensions, with its 95% interval. <b>Range</b>: the ranks the intervals allow; models whose ranges overlap
+      are not separated. <b>Accuracy</b> is reported beside coherence: the model's unchanged answers against the
+      gold answers of the cases. Click a row for its scores on the eleven groups, its profile and its full report.</p>
+    <div class="controls" id="families"></div>
+    <div class="tablewrap"><table class="lb" id="lb"></table></div>
+    <p class="note" id="lbnote"></p>
+  </div>
+</section>
+
+<section id="profiles">
+  <div class="wrap">
+    <h2><span class="num">03</span>Profiles</h2>
+    <p class="intro">Radar charts of the scores, on the five dimensions or the eleven groups. Pick up to six models
+      to compare.</p>
+    <div class="controls"><div class="seg" id="axes"></div><span class="sep"></span>
+      <label class="toggle" title="A model that ignores its input: it keeps every law that does not depend on what the answers mean, at chance accuracy"><input type="checkbox" id="refradar"> show the uniform reference (ignores the input; chance accuracy)</label></div>
+    <div class="controls" id="picker"></div>
+    <div class="radarbox"><svg id="radar" viewBox="0 0 640 520" role="img" aria-label="Radar chart"></svg><div id="radarlegend" class="legend"></div></div>
+    <h3 class="sub">By family</h3>
+    <div class="radargrid" id="famradars"></div>
+  </div>
+</section>
+
+<section id="accuracy" class="alt">
+  <div class="wrap split">
+    <div>
+      <h2><span class="num">04</span>Coherence is not accuracy</h2>
+      <p class="intro">A model that ignores its input and answers every question uniformly keeps every law that
+        does not depend on what the answers mean. It scores <b data-v="uniform"></b> on coherence, above every
+        model we tested, at chance accuracy (<b data-v="uniformAcc"></b>). Accuracy alone does not tell the decoders
+        apart (<b data-v="decAcc"></b>), coherence does (<b data-v="decCoh"></b>). Read the two together.</p>
+      <p class="intro">Reference models (crosses): <i>uniform</i> answers uniformly; <i>random</i> gives unrelated
+        answers to different questions; <i>Luce</i> is a toy word-overlap scorer, also with three biases.</p>
+    </div>
+    <div class="figure"><svg id="scatter" viewBox="0 0 520 400" role="img" aria-label="Coherence against accuracy"></svg></div>
+  </div>
+</section>
+
+<section id="findings">
+  <div class="wrap">
+    <h2><span class="num">05</span>Findings</h2>
+    <p class="intro">From the technical report; every number on this page is computed from the published reports.</p>
+    <ol class="findings" id="findinglist"></ol>
+  </div>
+</section>
+
+<section id="models" class="alt">
+  <div class="wrap">
+    <h2><span class="num">06</span>Models</h2>
+    <p class="intro">Every model was installed from its developers' release at a pinned revision and served with
+      their own server, except where noted; the exact commands are in
+      <a href="https://github.com/JevBench/jevbench/tree/main/bench/models">bench/models</a>. None varied across three repetitions of the same request.</p>
+    <div class="tablewrap"><table class="models" id="modeltable"></table></div>
+  </div>
+</section>
+
+<section id="start">
+  <div class="wrap">
+    <h2><span class="num">07</span>Get started</h2>
+    <p class="intro">Any server implementing the Jev interface (<code>POST /v1/systemone</code>) or any Python
+      function <code>(state, questions) → answers</code> can be tested. The answer format is in
+      <a href="https://github.com/JevBench/jevbench#connecting-your-model">Connecting your model</a>.</p>
+    <div class="two">
+<pre class="code">pip install jevbench
+
+<span class="c"># check that your server works with JevBench</span>
+jevbench check --url http://127.0.0.1:8000/v1/systemone \
+               --model my-model
+
+<span class="c"># evaluate it on jevbench-mini</span>
+jevbench eval  --url http://127.0.0.1:8000/v1/systemone \
+               --model my-model --out my-model.json</pre>
+<pre class="code">import jevbench as jb
+
+model = jb.systemone("http://127.0.0.1:8000/v1/systemone",
+                     model="my-model")
+jb.check(model)              <span class="c"># one request</span>
+report = jb.evaluate(model)  <span class="c"># jevbench-mini</span>
+print(report.table("group"))
+report.save("my-model.json")</pre>
+    </div>
+  </div>
+</section>
+
+<section id="cite" class="alt">
+  <div class="wrap">
+    <h2><span class="num">08</span>Cite</h2>
+<pre class="code">@misc{feng2026jevbench,
+  title        = {JevBench: Metamorphic Coherence Testing for Typed Probabilistic Decision Models},
+  author       = {Feng, Chen},
+  year         = {2026},
+  howpublished = {\url{https://jevbench.github.io}},
+  note         = {Technical report. ML Lab, Queen's University Belfast}
+}</pre>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>JevBench · ML Lab, Queen's University Belfast · <a href="mailto:c.feng@qub.ac.uk">c.feng@qub.ac.uk</a></div>
+    <div><a href="https://github.com/JevBench/jevbench">Code</a> · <a href="https://github.com/JevBench/JevBench.github.io/tree/main/data">Data</a> · Apache-2.0 · Not affiliated with any provider of the Jev interface.</div>
+  </div>
+</footer>
+
+<script src="assets/app.js"></script>
+</body>
+</html>
