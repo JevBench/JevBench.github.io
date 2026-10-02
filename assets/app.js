@@ -262,7 +262,7 @@
   const top = rows[0], bottom = rows[rows.length - 1];
   const items = [
     `<b>Scores range from ${pct(bottom.overall)} to ${pct(top.overall)}.</b> ${esc(name(top.model))} is first; of the other models, only
-     ${esc(name(rows[1].model))} has an interval that overlaps its own, and the models that follow are not separated from one another.`,
+     ${esc(name(rows[1].model))} has an interval that overlaps its own; the rank ranges in the table show which of the others are separated.`,
     `<b>Answers do not add up.</b> Probability-measure coherence (MEA) is ${meaLowest ? "the lowest dimension of every model" : "the weakest dimension"},
      with a mean of ${pct(meaMean)}. No model scores above ${pct(compBest)} on complements, and a templated negation (e.g. "Is it false that the answer to the following question is yes?")
      sums to one with its question in ${pct(negMean, 0)}% of tests on average: models largely ignore the negation.`,
@@ -271,7 +271,7 @@
     `<b>Coherence is not accuracy.</b> A model that ignores its input scores ${pct(uni.overall)}, above every real model, at chance accuracy
      (${pct(uni.accuracy.accuracy)}%). Among the ${dec.length} decoders accuracy spans ${put.decAcc}, coherence ${put.decCoh}.`,
     `<b>The reported suite closely reproduces the full one.</b> On the ${agree.models.length} models run on both, JevBench-mini and JevBench-240 agree
-     (Spearman ${agree.spearman.toFixed(3)}, at most ${agree.max_abs_diff.toFixed(1)} points apart), and all ${agree.separated_pairs} pairs of models that
+     (Spearman ${agree.spearman.toFixed(3)}, at most ${agree.max_abs_diff.toFixed(1)} points apart), and ${agree.separated_pairs_same_order === agree.separated_pairs ? "all " + agree.separated_pairs : agree.separated_pairs_same_order + " of the " + agree.separated_pairs} pairs of models that
      JevBench-240 separates are ordered the same way, with intervals about ${(agree.mean_ci_width["jevbench-mini"] / agree.mean_ci_width["jevbench-240"]).toFixed(1)} times as wide.`,
   ];
   document.getElementById("findinglist").innerHTML = items.map((t) => `<li>${t}</li>`).join("");
